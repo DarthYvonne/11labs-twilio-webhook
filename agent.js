@@ -25,7 +25,7 @@ app.get("/twiml.xml", (req, res) => {
   res.send(
     `<Response>
       <Start>
-       <Stream track="inbound_audio" region="ie1"
+       <Stream track="inbound_audio" name="bob"
         url="wss://klinikken-bkghdgakfne5efhn.swedencentral-01.azurewebsites.net/websocket" />
 
       </Start>
@@ -39,7 +39,7 @@ app.post("/twiml.xml", (req, res) => {
   res.send(
     `<Response>
       <Start>
-       <Stream track="inbound_audio" region="ie1"
+       <Stream track="inbound_audio" name="bob"
         url="wss://klinikken-bkghdgakfne5efhn.swedencentral-01.azurewebsites.net/websocket" />
 
       </Start>
