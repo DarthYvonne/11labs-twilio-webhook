@@ -24,11 +24,13 @@ app.get("/twiml.xml", (req, res) => {
   res.type("text/xml");
   res.send(
     `<Response>
-      <Start>
-       <Stream url="wss://klinikken-bkghdgakfne5efhn.swedencentral-01.azurewebsites.net/websocket" />
-
-      </Start>
-    </Response>`
+  <Start>
+    <Stream track="inbound_audio"
+            name="myAudioStream"
+            url="wss://klinikken-bkghdgakfne5efhn.swedencentral-01.azurewebsites.net/websocket" />
+  </Start>
+  <Pause length="30" />
+</Response>`
   );
 });
 
@@ -37,11 +39,13 @@ app.post("/twiml.xml", (req, res) => {
   res.type("text/xml");
   res.send(
     `<Response>
-      <Start>
-       <Stream url="wss://klinikken-bkghdgakfne5efhn.swedencentral-01.azurewebsites.net/websocket" />
-
-      </Start>
-    </Response>`
+  <Start>
+    <Stream track="inbound_audio"
+            name="myAudioStream"
+            url="wss://klinikken-bkghdgakfne5efhn.swedencentral-01.azurewebsites.net/websocket" />
+  </Start>
+  <Pause length="30" />
+</Response>`
   );
 });
 
