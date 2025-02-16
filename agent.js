@@ -7,7 +7,7 @@ const app = express();
 const port = 8080;
 
 const server = app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
+  console.log(`Server listening at http://localhost:${port}`); 
 });
 
 // Route til Twilio TwiML XML
