@@ -11,7 +11,7 @@ const server = app.listen(port, () => {
 });
 
 // Route til Twilio TwiML XML
-app.all("/twiml.xml", (req, res) => {
+app.get("/twiml.xml", (req, res) => {
   res.type("text/xml");
   res.send(
     `<Response>
@@ -22,40 +22,15 @@ app.all("/twiml.xml", (req, res) => {
   );
 });
 
-app.get("/outbound-call", async (req, res) => {
-  
-  const toNumber = req.query.toNumber;
-  if (!toNumber) {
-   
-    return res.status(400).send("Missing 'toNumber' parameter.");
-  }
-
-  try {
-    console.log("📞 Forsøger at ringe til:", toNumber);
-
-    const response = await axios.post(
-      `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACC}/Calls.json`,
-      new URLSearchParams({
-        Url: `${process.env.SERVER_URL}/webhook/twiml.xml`,
-        To: toNumber,
-        From: process.env.FROM_NUMBER,
-      }),
-      {
-        auth: {
-          username: process.env.TWILIO_ACC,
-          password: process.env.TWILIO_KEY,
-        },
-      }
-    );
-
-    console.log("✅ Opkald oprettet. Call SID:", response.data.sid);
-    return res.status(200).json({ callSid: response.data.sid });
-
-  } catch (error) {
-    console.error("❌ Fejl ved oprettelse af opkald:", error.response?.data || error.message);
-    return res.status(500).send("Failed to initiate call.");
-  }
-});
+app.post("/twiml.xml", (req, res) => {
+  res.type("text/xml");
+  res.send(
+    `<Response>
+      <Start>
+        <Stream url="wss://klinikken-bkghdgakfne5efhn.swedencentral-01.azurewebsites.net/websocket" />
+      </Start>
+    </Response>`
+  );
 
 const wss = new WebSocket.Server({ server });
 
