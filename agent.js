@@ -18,8 +18,6 @@ const server = app.listen(port, () => {
   logToFile(`Server listening at http://localhost:${port}`);
 });
 
-app.use(express.static("/home/site/wwwroot"));
-
 // Route til Twilio TwiML XML
 app.get("/twiml.xml", (req, res) => {
   logToFile("Received GET request for /twiml.xml");
@@ -67,7 +65,11 @@ wss.on("connection", (ws) => {
         logToFile(`Stream started with SID: ${streamSid}`);
       } else if (message.event === "media" && message.media && message.media.payload) {
         logToFile(`Media payload received: ${message.media.payload.substring(0, 50)}...`);
+        console.log("Media payload received");
+
         if (!elevenWs || elevenWs.readyState !== WebSocket.OPEN) {
+          console.log("Trying to connect to Eleven Labs");
+          logToFile("Trying to connect to Eleven Labs");
           elevenWs = new WebSocket("wss://api.elevenlabs.io/v1/text-to-speech/stream");
 
           elevenWs.on("open", () => {
@@ -101,6 +103,8 @@ wss.on("connection", (ws) => {
           });
         }
 
+        console.log("Sending to Eleven Labs:", message.media.payload.substring(0, 50));
+        logToFile(`Sending to Eleven Labs: ${message.media.payload.substring(0, 50)}`);
         elevenWs.send(JSON.stringify({ text: message.media.payload }));
       }
     } catch (err) {
