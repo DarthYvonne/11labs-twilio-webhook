@@ -31,6 +31,7 @@ app.post("/twiml.xml", (req, res) => {
       </Start>
     </Response>`
   );
+});  // 🔹 **LUKKER `app.post("/twiml.xml")` korrekt**
 
 const wss = new WebSocket.Server({ server });
 
@@ -91,5 +92,3 @@ wss.on("connection", (ws) => {
     ws.terminate();
   });
 });
-
-
