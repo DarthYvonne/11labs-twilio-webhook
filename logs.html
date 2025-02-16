@@ -1,0 +1,22 @@
+</head>
+<body>
+    <h2>Log Viewer</h2>
+    <pre id="log-content">Loading...</pre>
+    
+    <script>
+        async function fetchLog() {
+            try {
+                let response = await fetch('/logfile.txt'); // Justér stien til din logfil
+                if (!response.ok) throw new Error('Logfile not found');
+                let text = await response.text();
+                document.getElementById('log-content').textContent = text;
+            } catch (error) {
+                document.getElementById('log-content').textContent = 'Error loading log file: ' + error.message;
+            }
+        }
+        
+        fetchLog();
+        setInterval(fetchLog, 5000); // Opdater loggen hvert 5. sekund
+    </script>
+</body>
+</html>
