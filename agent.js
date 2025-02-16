@@ -11,12 +11,12 @@ const server = app.listen(port, () => {
 });
 
 // Route til Twilio TwiML XML
-app.all("/forbindelse/twiml.xml", (req, res) => {
+app.all("/twiml.xml", (req, res) => {
   res.type("text/xml");
   res.send(
     `<Response>
       <Start>
-        <Stream url="wss://${process.env.SERVER_URL}/websocket" />
+        <Stream url="wss://klinikken-bkghdgakfne5efhn.swedencentral-01.azurewebsites.net/websocket" />
       </Start>
     </Response>`
   );
