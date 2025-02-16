@@ -1,22 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Server Logs</title>
+    <meta charset="UTF-8">
 </head>
 <body>
-    <h2>Log Viewer</h2>
+    <h1>Server Logs</h1>
     <pre id="log-content">Loading...</pre>
-    
+
     <script>
-        async function fetchLog() {
+        async function fetchLogs() {
             try {
-                let response = await fetch('/logfile.txt'); // Justér stien til din logfil
-                if (!response.ok) throw new Error('Logfile not found');
-                let text = await response.text();
-                document.getElementById('log-content').textContent = text;
+                const response = await fetch("/logs");
+                if (!response.ok) {
+                    throw new Error("Failed to load logs");
+                }
+                const text = await response.text();
+                document.getElementById("log-content").innerText = text;
             } catch (error) {
-                document.getElementById('log-content').textContent = 'Error loading log file: ' + error.message;
+                document.getElementById("log-content").innerText = "Error loading logs: " + error.message;
             }
         }
-        
-        fetchLog();
-        setInterval(fetchLog, 5000); // Opdater loggen hvert 5. sekund
+        fetchLogs();
     </script>
 </body>
 </html>
