@@ -91,8 +91,14 @@ wss.on("connection", (ws) => {
           logToFile(`Eleven Labs WebSocket error: ${err.message}`);
         });
       } else if (message.event === "media" && message.media && message.media.payload) {
-        // Send kun data til Eleven Labs, hvis den er åben
-        if (!elevenWs || elevenWs.readyState !== WebSocket.OPEN) {
+        // Tjek om ElevenLabs er åben
+        if (!elevenWs) {
+          logToFile("No Eleven Labs WS yet");
+          return;
+        }
+        logToFile(`Eleven Labs readyState: ${elevenWs.readyState}`);
+
+        if (elevenWs.readyState !== WebSocket.OPEN) {
           logToFile("Eleven Labs not open yet, skipping media chunk");
           return;
         }
