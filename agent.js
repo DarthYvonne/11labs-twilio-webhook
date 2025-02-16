@@ -18,6 +18,8 @@ const server = app.listen(port, () => {
   logToFile(`Server listening at http://localhost:${port}`);
 });
 
+app.use(express.static("/home/site/wwwroot"));
+
 // Route til Twilio TwiML XML
 app.get("/twiml.xml", (req, res) => {
   logToFile("Received GET request for /twiml.xml");
